@@ -83,7 +83,6 @@ public class Game implements KeyListener {
     private void endGame() {
         gameOver = true;
         // Add the final score to the score manager
-        scoreManager.addScore(score.getScore(), scoreFilename);
         frame.setVisible(true); // Make the JFrame visible when the game is over
     }
 
@@ -115,97 +114,97 @@ public class Game implements KeyListener {
             }
         }
     }
-
-    public void draw(Graphics2D graphics) {
-        for (Wall sp : walls) {
-            sp.draw(graphics);
-        }
-        for (Ball sp : balls) {
-            sp.draw(graphics);
-        }
-        boxes.draw(graphics);
-        bat.draw(graphics);
-        roof.draw(graphics);
-
-        graphics.setColor(Color.white);
-        graphics.setFont(new Font("Arial", Font.PLAIN, 20));
-        graphics.drawString("Score: " + score.getScore(), 700, 580);
-
-        graphics.setColor(Color.white);
-        graphics.setFont(new Font("Arial", Font.PLAIN, 20));
-        graphics.drawString("lives left: " + Const.lives, 10, 580);
-
-        if (gameOver) {
-            graphics.setColor(Color.BLACK);
-            graphics.fillRect(0, 0, 800, 600);
-            // Draw "Game Over" message
-            graphics.setColor(Color.ORANGE);
-            graphics.setFont(new Font("Arial", Font.BOLD, 30));
-            String gameOverMessage = "Game Over!";
-            int messageWidth = graphics.getFontMetrics().stringWidth(gameOverMessage);
-            graphics.drawString(gameOverMessage, (800 - messageWidth) / 2, 200);
-
-            // Draw restart message
-            graphics.setColor(Color.ORANGE);
-            graphics.setFont(new Font("Arial", Font.PLAIN, 20));
-            String restartMessage = "Press 'R' to restart the game.";
-            int restartWidth = graphics.getFontMetrics().stringWidth(restartMessage);
-            graphics.drawString(restartMessage, (800 - restartWidth) / 2, 250);
-
-            // Draw current score
-            graphics.setColor(Color.ORANGE);
-            graphics.setFont(new Font("Arial", Font.PLAIN, 20));
-            String scoreMessage = "Score: " + score.getScore();
-            int scoreWidth = graphics.getFontMetrics().stringWidth(scoreMessage);
-            graphics.drawString(scoreMessage, (800 - scoreWidth) / 2, 300);
-
-            // Draw latest try list
-            int latestRunsY = 350; // Y-coordinate for latest runs list
-            int listX = 150; // X-coordinate for the list
-
-            graphics.setColor(Color.ORANGE);
-            graphics.setFont(new Font("Arial", Font.BOLD, 20));
-            graphics.drawString("Latest Try:", listX, latestRunsY);
-            latestRunsY += 20; // Move down for the list
-
-            // Draw latest 10 tries list in reverse order
-            List<Integer> latestRuns = scoreManager.getLatestRuns();
-            List<Integer> latestScores = scoreManager.getLatestScores(); // Get latest scores
-            for (int i = Math.max(0, latestRuns.size() - 1); i >= 0; i--) {
-                int run = latestRuns.get(i);
-                int score = latestScores.get(i); // Get latest score for the current run
-                String runInfo = "Run " + run + ": " + score;
-                graphics.drawString(runInfo, listX, latestRunsY);
-                latestRunsY += 20; // Move down for the next run
+    
+        public void draw(Graphics2D graphics) {
+            for (Wall sp : walls) {
+                sp.draw(graphics);
             }
-            // Draw high scores with corresponding names
-            // Get the highest scores and corresponding names
-            List<Integer> highestScores = scoreManager.getHighestScores();
-            List<Integer> highestScoresRuns = scoreManager.getHighestScoresRuns();
-            Map<Integer, String> highestScoresNames = scoreManager.getHighestScoresNames();
+            for (Ball sp : balls) {
+                sp.draw(graphics);
+            }
+            boxes.draw(graphics);
+            bat.draw(graphics);
+            roof.draw(graphics);
 
-            int highScoreY = 350; // Y-coordinate for high score list
-            int highScoreX = 500; // X-coordinate for the list
+            graphics.setColor(Color.white);
+            graphics.setFont(new Font("Arial", Font.PLAIN, 20));
+            graphics.drawString("Score: " + score.getScore(), 700, 580);
 
-            graphics.setColor(Color.ORANGE);
-            graphics.setFont(new Font("Arial", Font.BOLD, 20));
-            graphics.drawString("Highest Scores:", highScoreX, highScoreY);
-            highScoreY += 20; // Move down for the list
+            graphics.setColor(Color.white);
+            graphics.setFont(new Font("Arial", Font.PLAIN, 20));
+            graphics.drawString("lives left: " + Const.lives, 10, 580);
 
-            // Draw each high score with the corresponding name
-            for (int i = 0; i < highestScores.size(); i++) {
-                int score = highestScores.get(i);
-                int run = highestScoresRuns.get(i);
-                String playerName = highestScoresNames.get(score); // Get the name corresponding to the score
-                if (playerName != null) {
-                    // Draw name and score with two dots in between
-                    String scoreInfo = playerName + " : " + score;
-                    graphics.drawString(scoreInfo, highScoreX, highScoreY);
-                    highScoreY += 20; // Move down for the next score
+            if (gameOver) {
+                graphics.setColor(Color.BLACK);
+                graphics.fillRect(0, 0, 800, 600);
+                // Draw "Game Over" message
+                graphics.setColor(Color.ORANGE);
+                graphics.setFont(new Font("Arial", Font.BOLD, 30));
+                String gameOverMessage = "Game Over!";
+                int messageWidth = graphics.getFontMetrics().stringWidth(gameOverMessage);
+                graphics.drawString(gameOverMessage, (800 - messageWidth) / 2, 200);
+
+                // Draw restart message
+                graphics.setColor(Color.ORANGE);
+                graphics.setFont(new Font("Arial", Font.PLAIN, 20));
+                String restartMessage = "Press 'R' to restart the game.";
+                int restartWidth = graphics.getFontMetrics().stringWidth(restartMessage);
+                graphics.drawString(restartMessage, (800 - restartWidth) / 2, 250);
+
+                // Draw current score
+                graphics.setColor(Color.ORANGE);
+                graphics.setFont(new Font("Arial", Font.PLAIN, 20));
+                String scoreMessage = "Score: " + score.getScore();
+                int scoreWidth = graphics.getFontMetrics().stringWidth(scoreMessage);
+                graphics.drawString(scoreMessage, (800 - scoreWidth) / 2, 300);
+
+
+                // Draw latest try list
+                int latestRunsY = 350; // Y-coordinate for latest runs list
+                int listX = 150; // X-coordinate for the list
+
+                graphics.setColor(Color.ORANGE);
+                graphics.setFont(new Font("Arial", Font.BOLD, 20));
+                graphics.drawString("Latest Try:", listX, latestRunsY);
+                latestRunsY += 20; // Move down for the list
+
+             // Draw latest 3 tries list in reverse order
+                JList<Integer> latestRunsList = scoreManager.getLatestRuns();
+                ListModel<Integer> latestRunsModel = latestRunsList.getModel();
+                for (int i = latestRunsModel.getSize() - 1; i >= Math.max(0, latestRunsModel.getSize() - 1); i--) {
+                    int run = latestRunsModel.getElementAt(i);
+                    int score = scoreManager.getLatestScores().getModel().getElementAt(i); // Get latest score for the current run
+                    String runInfo = "Run " + run + ": " + score;
+                    graphics.drawString(runInfo, listX, latestRunsY);
+                    latestRunsY += 20; // Move down for the next run
+                }
+
+                // Draw high scores with corresponding names
+                JList<Integer> highestScoresList = scoreManager.getHighestScores();
+                ListModel<Integer> highestScoresModel = highestScoresList.getModel();
+                Map<Integer, String> highestScoresNames = scoreManager.getHighestScoresNames();
+
+                int highScoreY = 350; // Y-coordinate for high score list
+                int highScoreX = 500; // X-coordinate for the list
+
+                graphics.setColor(Color.ORANGE);
+                graphics.setFont(new Font("Arial", Font.BOLD, 20));
+                graphics.drawString("Highest Scores:", highScoreX, highScoreY);
+                highScoreY += 20; // Move down for the list
+
+                // Draw each high score with the corresponding name
+                for (int i = 0; i < Math.min(highestScoresModel.getSize(), 10); i++) {
+                    int score = highestScoresModel.getElementAt(i);
+                    String playerName = highestScoresNames.get(score); // Get the name corresponding to the score
+                    if (playerName != null) {
+                        // Draw name and score with two dots in between
+                        String scoreInfo = playerName + " : " + score;
+                        graphics.drawString(scoreInfo, highScoreX, highScoreY);
+                        highScoreY += 20; // Move down for the next score
+                    }
                 }
             }
         }
-    }
 
     public void restartGame(GameBoard board) {
         if (gameOver) {
@@ -242,10 +241,14 @@ public class Game implements KeyListener {
     public void keyReleased(KeyEvent e) {
     }
 
-    // ActionListener for the Cancel button
+ // ActionListener for the Cancel button
     private ActionListener cancelActionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
+            String playerName = nameField.getText().trim();
+            // Add the score even if the name field is empty
+            scoreManager.addScore(score.getScore(), playerName);
+            nameEntered = true; // Set nameEntered to true after a valid name is entered or after canceling
             frame.setVisible(false); // Make the JFrame invisible
             frame.dispose(); // Dispose the JFrame to release resources
         }
